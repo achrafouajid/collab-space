@@ -1,5 +1,6 @@
+
+import { ChartPlaceholder, DashboardLayout, StatCard } from '../../components/dashboard'
 import React from 'react'
-import { DashboardLayout, ChartPlaceholder, StatCard } from '../components/dashboard'
 
 const AnalyticsPage: React.FC = () => {
   return (

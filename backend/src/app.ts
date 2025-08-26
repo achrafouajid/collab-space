@@ -19,8 +19,11 @@ import orderRoutes from './modules/order/router';
 import authRoutes from './modules/auth/router/auth.router';
 import dashboardRoutes from './modules/dashboard/router/dashboard.router';
 import syncRoutes from './modules/sync/router/sync.router';
+import projectRoutes from './modules/project/router';
+
 
 const app = express();
+
 
 // Security middleware
 app.use(helmet({
@@ -118,9 +121,13 @@ apiRouter.use('/users', cacheMiddleware.shortCache(), userRoutes);
 apiRouter.use('/dashboard', cacheMiddleware.mediumCache(), dashboardRoutes);
 apiRouter.use('/products', cacheMiddleware.mediumCache(), productRoutes);
 apiRouter.use('/orders', cacheMiddleware.shortCache(), orderRoutes);
+apiRouter.use('/projects', cacheMiddleware.shortCache(), projectRoutes);
+
 
 // Mount API routes with version prefix
 app.use(`/api/${config.API_VERSION}`, apiRouter);
+app.use(errorHandler);
+
 
 // Swagger documentation
 if (config.SWAGGER_ENABLED) {

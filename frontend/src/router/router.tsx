@@ -3,6 +3,8 @@ import SimpleDashboard from '../components/dashboard/SimpleDashboard'
 import LoginPage from '../pages/auth/LoginPage'
 import RegisterPage from '../pages/auth/RegisterPage'
 import UsersPage from '../pages/User/UsersPage'
+import ProjectsPage from '@/pages/project/ProjectsPage'
+import AnalyticsPage from '@/pages/dashboard/AnalyticsPage'
 
 // Simple Home Page
 const HomePage = () => (
@@ -83,6 +85,22 @@ const AppRouter = () => {
         element={
           <ProtectedRoute>
             <UsersPage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/project" 
+        element={
+          <ProtectedRoute>
+            <ProjectsPage />
+          </ProtectedRoute>
+        } 
+      />
+      <Route 
+        path="/project/analytics" 
+        element={
+          <ProtectedRoute>
+            <AnalyticsPage />
           </ProtectedRoute>
         } 
       />

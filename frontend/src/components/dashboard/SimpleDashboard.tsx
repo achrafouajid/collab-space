@@ -304,6 +304,50 @@ const SimpleDashboard: React.FC = () => {
                 </button>
               </div>
             </div>
+            <div className="px-4 py-5 sm:p-6">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                <Link
+                  to="/project"
+                  className="relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 rounded-lg border border-gray-300 hover:border-gray-400 transition-colors"
+                >
+                  <div>
+                    <span className="rounded-lg inline-flex p-3 bg-indigo-50 text-indigo-600 group-hover:bg-indigo-100">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" />
+                      </svg>
+                    </span>
+                  </div>
+                  <div className="mt-4">
+                    <h3 className="text-lg font-medium text-gray-900">View Projects</h3>
+                    <p className="mt-2 text-sm text-gray-500">Create new users and view all existing users</p>
+                  </div>
+                </Link>
+
+                <button 
+                  onClick={fetchDashboardData}
+                  className="relative group bg-white p-6 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-500 rounded-lg border border-gray-300 hover:border-gray-400 transition-colors cursor-pointer"
+                >
+                  <div>
+                    <span className="rounded-lg inline-flex p-3 bg-green-50 text-green-600 group-hover:bg-green-100">
+                      <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                      </svg>
+                    </span>
+                  </div>
+                  <div className="mt-4">
+                    <h3 className="text-lg font-medium text-gray-900">
+                      {isBackendConnected ? 'Refresh Data' : 'Connect to Backend'}
+                    </h3>
+                    <p className="mt-2 text-sm text-gray-500">
+                      {isBackendConnected 
+                        ? 'Update dashboard with latest information'
+                        : 'Try to connect to the backend server'
+                      }
+                    </p>
+                  </div>
+                </button>
+              </div>
+            </div>
           </div>
 
           {/* Recent Activity */}
