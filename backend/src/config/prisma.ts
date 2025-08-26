@@ -13,4 +13,14 @@ if (config.NODE_ENV === 'development') {
   global.__prisma = prisma;
 }
 
+process.on('SIGINT', async () => {
+  await prisma.$disconnect();
+  process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
+  await prisma.$disconnect();
+  process.exit(0);
+}); 
+
 export default prisma; 
