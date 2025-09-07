@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
 
-// Bulk user operations
+// Bulk project operations
 export const bulkProjectActionSchema = z.object({
-  projecIds: z.array(z.string().cuid('Invalid user ID')).min(1, 'At least one user ID is required'),
+  projecIds: z.array(z.string().cuid('Invalid projet ID')).min(1, 'At least one project ID is required'),
   action: z.enum(['activate', 'deactivate', 'delete']),
 });
 
