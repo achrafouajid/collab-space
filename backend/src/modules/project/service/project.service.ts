@@ -1,4 +1,7 @@
 import { PrismaClient } from '@prisma/client';
+import { CreateProjectDto, ProjectResponseDto } from '../dto/project.dto';
+import { ConflictError } from '@/utils/AppError';
+import { ProjectRepository } from '../repository/project.repository';
 
 export interface ProjectsQueryParams {
   page: number;
@@ -16,6 +19,8 @@ export interface ProjectsResponse {
 }
 
 export class ProjectService {
+  private projectRepository: ProjectRepository;
+
   private prisma = new PrismaClient();
 
   async getProjectsByUser(userId: string, { page, limit }: ProjectsQueryParams): Promise<ProjectsResponse> {
@@ -45,5 +50,24 @@ export class ProjectService {
       projects,
       meta: { page, limit, total, totalPages },
     };
+  }
+
+  async createProject(userData: CreateProjectDto): Promise<ProjectResponseDto> {
+    // Check if user already exists
+    const existingProject = await this.projectRepository.findByEmail(projectData.email);
+    if (existingProject) {
+      throw new ConflictError('Project with this email already exists');
+    }
+
+    // Hash password
+    const hashedPassword = await bcrypt.hash(projectData.password, config.BCRYPT_ROUNDS);
+
+    // Create project
+    const project = await this.projectRepository.create({
+      ...projectData,
+      password: hashedPassword,
+    });
+
+    return this.mapToResponseDto(project);
   }
 }
