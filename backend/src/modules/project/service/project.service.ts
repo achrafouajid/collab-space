@@ -21,6 +21,10 @@ export interface ProjectsResponse {
 export class ProjectService {
   private projectRepository: ProjectRepository;
 
+  constructor() {
+    this.projectRepository = new ProjectRepository();
+  }
+
   private prisma = new PrismaClient();
 
   async getProjectsByUser(userId: string, { page, limit }: ProjectsQueryParams): Promise<ProjectsResponse> {
@@ -54,7 +58,7 @@ export class ProjectService {
 
   async createProject(userData: CreateProjectDto): Promise<ProjectResponseDto> {
     // Check if user already exists
-    const existingProject = await this.projectRepository.findByEmail(projectData.email);
+    const existingProject = await this.projectRepository.findById(projectData.projectId);
     if (existingProject) {
       throw new ConflictError('Project with this email already exists');
     }
