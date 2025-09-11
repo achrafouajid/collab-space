@@ -57,19 +57,15 @@ export class ProjectService {
   }
 
   async createProject(userData: CreateProjectDto): Promise<ProjectResponseDto> {
-    // Check if user already exists
     const existingProject = await this.projectRepository.findById(projectData.projectId);
     if (existingProject) {
       throw new ConflictError('Project with this email already exists');
     }
 
-    // Hash password
-    const hashedPassword = await bcrypt.hash(projectData.password, config.BCRYPT_ROUNDS);
 
     // Create project
     const project = await this.projectRepository.create({
       ...projectData,
-      password: hashedPassword,
     });
 
     return this.mapToResponseDto(project);
