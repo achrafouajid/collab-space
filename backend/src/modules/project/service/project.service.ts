@@ -59,7 +59,7 @@ export class ProjectService {
   async createProject(userData: CreateProjectDto): Promise<ProjectResponseDto> {
     const existingProject = await this.projectRepository.findById(projectData.projectId);
     if (existingProject) {
-      throw new ConflictError('Project with this email already exists');
+      throw new ConflictError('Project already exists');
     }
 
 
