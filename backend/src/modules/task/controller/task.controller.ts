@@ -1,32 +1,32 @@
 import { Request, Response, NextFunction } from 'express';
-import { UserService } from '../service/user.service';
-import { UserCache } from '../cache/user.cache';
+import { TaskService } from '../service/task.service';
+import { TaskCache } from '../cache/task.cache';
 import { ResponseUtil } from '../../../utils/response';
 import { AuthRequest } from '../../../middleware/auth.middleware';
 import {
-  CreateUserDto,
-  LoginUserDto,
-  UpdateUserDto,
+  CreateTaskDto,
+  LoginTaskDto,
+  UpdateTaskDto,
   ChangePasswordDto,
-  GetUsersQueryDto,
-} from '../dto/user.dto';
+  GetTasksQueryDto,
+} from '../dto/task.dto';
 
-export class UserController {
-  private userService: UserService;
-  private userCache: UserCache;
+export class TaskController {
+  private taskService: TaskService;
+  private taskCache: TaskCache;
 
   constructor() {
-    this.userService = new UserService();
-    this.userCache = new UserCache();
+    this.taskService = new TaskService();
+    this.taskCache = new TaskCache();
   }
 
   // Authentication endpoints
   register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const userData: CreateUserDto = req.body;
-      const result = await this.userService.register(userData);
+      const taskData: CreateTaskDto = req.body;
+      const result = await this.taskService.register(taskData);
 
-      ResponseUtil.created(res, result, 'User registered successfully');
+      ResponseUtil.created(res, result, 'Task registered successfully');
     } catch (error) {
       next(error);
     }
@@ -34,8 +34,8 @@ export class UserController {
 
   login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const credentials: LoginUserDto = req.body;
-      const result = await this.userService.login(credentials);
+      const credentials: LoginTaskDto = req.body;
+      const result = await this.taskService.login(credentials);
 
       ResponseUtil.success(res, result, 'Login successful');
     } catch (error) {
@@ -46,7 +46,7 @@ export class UserController {
   refreshToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { refreshToken } = req.body;
-      const result = await this.userService.refreshToken(refreshToken);
+      const result = await this.taskService.refreshToken(refreshToken);
 
       ResponseUtil.success(res, result, 'Token refreshed successfully');
     } catch (error) {
@@ -57,18 +57,18 @@ export class UserController {
   // Profile endpoints
   getProfile = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const userId = req.user!.id;
+      const taskId = req.task!.id;
 
       // Try to get from cache first
-      let user = await this.userCache.getUser(userId);
+      let task = await this.taskCache.getTask(taskId);
       
-      if (!user) {
-        user = await this.userService.getProfile(userId);
+      if (!task) {
+        task = await this.taskService.getProfile(taskId);
         // Cache the result
-        await this.userCache.setUser(userId, user);
+        await this.taskCache.setTask(taskId, task);
       }
 
-      ResponseUtil.success(res, user, 'Profile retrieved successfully');
+      ResponseUtil.success(res, task, 'Profile retrieved successfully');
     } catch (error) {
       next(error);
     }
@@ -76,15 +76,15 @@ export class UserController {
 
   updateProfile = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const userId = req.user!.id;
-      const updateData: UpdateUserDto = req.body;
+      const taskId = req.task!.id;
+      const updateData: UpdateTaskDto = req.body;
 
-      const updatedUser = await this.userService.updateProfile(userId, updateData);
+      const updatedTask = await this.taskService.updateProfile(taskId, updateData);
       
       // Update cache
-      await this.userCache.setUser(userId, updatedUser);
+      await this.taskCache.setTask(taskId, updatedTask);
 
-      ResponseUtil.success(res, updatedUser, 'Profile updated successfully');
+      ResponseUtil.success(res, updatedTask, 'Profile updated successfully');
     } catch (error) {
       next(error);
     }
@@ -92,10 +92,10 @@ export class UserController {
 
   changePassword = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const userId = req.user!.id;
+      const taskId = req.task!.id;
       const passwordData: ChangePasswordDto = req.body;
 
-      await this.userService.changePassword(userId, passwordData);
+      await this.taskService.changePassword(taskId, passwordData);
 
       ResponseUtil.success(res, undefined, 'Password changed successfully');
     } catch (error) {
@@ -104,68 +104,68 @@ export class UserController {
   };
 
   // Admin endpoints
-  createUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  createTask = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const userData: CreateUserDto = req.body;
-      const newUser = await this.userService.createUser(userData);
+      const taskData: CreateTaskDto = req.body;
+      const newTask = await this.taskService.createTask(taskData);
 
-      ResponseUtil.created(res, newUser, 'User created successfully');
+      ResponseUtil.created(res, newTask, 'Task created successfully');
     } catch (error) {
       next(error);
     }
   };
 
-  getUsers = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  getTasks = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
-      const query: GetUsersQueryDto = req.query as any;
+      const query: GetTasksQueryDto = req.query as any;
       
       // Create cache key from query
       const cacheKey = JSON.stringify(query);
       
       // Try to get from cache first
-      let result = await this.userCache.getUserList(cacheKey);
+      let result = await this.taskCache.getTaskList(cacheKey);
       
       if (!result) {
-        result = await this.userService.getUsers(query);
+        result = await this.taskService.getTasks(query);
         // Cache the result
-        await this.userCache.setUserList(cacheKey, result);
+        await this.taskCache.setTaskList(cacheKey, result);
       }
 
-      ResponseUtil.success(res, result.users, 'Users retrieved successfully', 200, result.meta);
+      ResponseUtil.success(res, result.tasks, 'Tasks retrieved successfully', 200, result.meta);
     } catch (error) {
       next(error);
     }
   };
 
-  getUserById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  getTaskById = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { id } = req.params;
 
       // Try to get from cache first
-      let user = await this.userCache.getUser(id);
+      let task = await this.taskCache.getTask(id);
       
-      if (!user) {
-        user = await this.userService.getUserById(id);
+      if (!task) {
+        task = await this.taskService.getTaskById(id);
         // Cache the result
-        await this.userCache.setUser(id, user);
+        await this.taskCache.setTask(id, task);
       }
 
-      ResponseUtil.success(res, user, 'User retrieved successfully');
+      ResponseUtil.success(res, task, 'Task retrieved successfully');
     } catch (error) {
       next(error);
     }
   };
 
-  deleteUser = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  deleteTask = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const { id } = req.params;
 
-      await this.userService.deleteUser(id);
+      await this.taskService.deleteTask(id);
       
       // Clear cache
-      await this.userCache.clearUserCaches(id);
+      await this.taskCache.clearTaskCaches(id);
 
-      ResponseUtil.success(res, undefined, 'User deleted successfully');
+      ResponseUtil.success(res, undefined, 'Task deleted successfully');
     } catch (error) {
       next(error);
     }
@@ -182,7 +182,7 @@ export class UserController {
       }
 
       // This would typically use the repository directly for a simple check
-      const isAvailable = !(await this.userService['userRepository'].existsByEmail(email));
+      const isAvailable = !(await this.taskService['taskRepository'].existsByEmail(email));
 
       ResponseUtil.success(res, { available: isAvailable }, 'Email availability checked');
     } catch (error) {
