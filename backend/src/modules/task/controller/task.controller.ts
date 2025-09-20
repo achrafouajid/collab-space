@@ -20,7 +20,7 @@ export class TaskController {
     this.taskCache = new TaskCache();
   }
 
-  // Authentication endpoints
+  // create task
   register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const taskData: CreateTaskDto = req.body;
@@ -32,29 +32,7 @@ export class TaskController {
     }
   };
 
-  login = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const credentials: LoginTaskDto = req.body;
-      const result = await this.taskService.login(credentials);
-
-      ResponseUtil.success(res, result, 'Login successful');
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  refreshToken = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const { refreshToken } = req.body;
-      const result = await this.taskService.refreshToken(refreshToken);
-
-      ResponseUtil.success(res, result, 'Token refreshed successfully');
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  // Profile endpoints
+  // get task
   getProfile = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
       const taskId = req.task!.id;
@@ -85,19 +63,6 @@ export class TaskController {
       await this.taskCache.setTask(taskId, updatedTask);
 
       ResponseUtil.success(res, updatedTask, 'Profile updated successfully');
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  changePassword = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const taskId = req.task!.id;
-      const passwordData: ChangePasswordDto = req.body;
-
-      await this.taskService.changePassword(taskId, passwordData);
-
-      ResponseUtil.success(res, undefined, 'Password changed successfully');
     } catch (error) {
       next(error);
     }
