@@ -20,49 +20,17 @@ export class TaskController {
     this.taskCache = new TaskCache();
   }
 
-  // create task
-  register = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const taskData: CreateTaskDto = req.body;
-      const result = await this.taskService.register(taskData);
-
-      ResponseUtil.created(res, result, 'Task registered successfully');
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  // get task
-  getProfile = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const taskId = req.task!.id;
-
-      // Try to get from cache first
-      let task = await this.taskCache.getTask(taskId);
-      
-      if (!task) {
-        task = await this.taskService.getProfile(taskId);
-        // Cache the result
-        await this.taskCache.setTask(taskId, task);
-      }
-
-      ResponseUtil.success(res, task, 'Profile retrieved successfully');
-    } catch (error) {
-      next(error);
-    }
-  };
-
-  updateProfile = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
+  updateTask = async (req: AuthRequest, res: Response, next: NextFunction): Promise<void> => {
     try {
       const taskId = req.task!.id;
       const updateData: UpdateTaskDto = req.body;
 
-      const updatedTask = await this.taskService.updateProfile(taskId, updateData);
+      const updatedTask = await this.taskService.updateTask(taskId, updateData);
       
       // Update cache
       await this.taskCache.setTask(taskId, updatedTask);
 
-      ResponseUtil.success(res, updatedTask, 'Profile updated successfully');
+      ResponseUtil.success(res, updatedTask, 'Task updated successfully');
     } catch (error) {
       next(error);
     }
@@ -136,22 +104,4 @@ export class TaskController {
     }
   };
 
-  // Utility endpoint
-  checkEmailAvailability = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    try {
-      const { email } = req.query;
-      
-      if (!email || typeof email !== 'string') {
-        ResponseUtil.badRequest(res, 'Email parameter is required');
-        return;
-      }
-
-      // This would typically use the repository directly for a simple check
-      const isAvailable = !(await this.taskService['taskRepository'].existsByEmail(email));
-
-      ResponseUtil.success(res, { available: isAvailable }, 'Email availability checked');
-    } catch (error) {
-      next(error);
-    }
-  };
 } 
