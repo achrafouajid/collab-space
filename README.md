@@ -21,7 +21,7 @@ A complete full-stack PERN (PostgreSQL, Express.js, React, Node.js) application 
 - ✅ **Modular Architecture** (User, Product, Order modules)
 
 ### Frontend (React + Vite + TypeScript)
-- ✅ **React 18** with TypeScript
+- ✅ **React 19** with TypeScript
 - ✅ **Vite** for fast development and building
 - ✅ **Redux Toolkit** for state management
 - ✅ **React Query** for server state management
