@@ -117,14 +117,8 @@ project/
 - Redis 6+
 - Git
 
-### 1. Clone the Repository
 
-```bash
-git clone <repository-url>
-cd pern-stack-app
-```
-
-### 2. Backend Setup
+### 1. Backend Setup
 
 ```bash
 # Navigate to backend directory
@@ -156,7 +150,7 @@ npm run dev
 
 The backend will start on http://localhost:5000
 
-### 3. Frontend Setup
+### 2. Frontend Setup
 
 ```bash
 # Navigate to frontend directory (from project root)
