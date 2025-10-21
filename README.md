@@ -18,7 +18,7 @@ A complete full-stack PERN (PostgreSQL, Express.js, React, Node.js) application 
 - ✅ **Husky** for git hooks
 - ✅ **Rate Limiting** and security middleware
 - ✅ **Error Handling** with custom error classes
-- ✅ **Modular Architecture** (User, Product, Order modules)
+- ✅ **Modular Architecture**
 
 ### Frontend (React + Vite + TypeScript)
 - ✅ **React 19** with TypeScript
