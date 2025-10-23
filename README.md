@@ -355,13 +355,6 @@ docker-compose up -d
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
-
-- Express.js team for the excellent web framework
-- Prisma team for the amazing database toolkit
-- React team for the powerful UI library
-- All the open-source contributors who made this possible
-
 ## 📞 Support
 
 If you have any questions or need help with setup, please open an issue in the GitHub repository.
