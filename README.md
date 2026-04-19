@@ -1,6 +1,6 @@
 # PERN Stack Application
 
-A complete full-stack PERN (PostgreSQL, Express.js, React, Node.js) application built with TypeScript, following modern development practices and modular architecture.
+A complete full-stack PERN (PostgreSQL, Express.js, React, Node.js) application with modular architecture built with TypeScript.
 
 ## 🚀 Features
 
