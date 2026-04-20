@@ -31,7 +31,6 @@ A complete full-stack PERN (PostgreSQL, Express.js, React, Node.js) application 
 - ✅ **Headless UI** for accessible components
 - ✅ **Framer Motion** for animations
 - ✅ **Vitest** for testing
-- ✅ **ESLint + Prettier** for code quality
 - ✅ **Responsive Design** with mobile-first approach
 
 ## 📁 Project Structure
