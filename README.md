@@ -15,7 +15,6 @@ A complete full-stack PERN (PostgreSQL, Express.js, React, Node.js) application 
 - ✅ **Swagger Documentation** (OpenAPI 3.0)
 - ✅ **Jest Testing** with Supertest
 - ✅ **ESLint + Prettier** for code quality
-- ✅ **Husky** for git hooks
 - ✅ **Rate Limiting** and security middleware
 - ✅ **Error Handling** with custom error classes
 - ✅ **Modular Architecture**
