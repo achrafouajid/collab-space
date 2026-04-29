@@ -1,4 +1,4 @@
-# PERN Stack Application
+# Collab Space
 
 A complete full-stack PERN (PostgreSQL, Express.js, React, Node.js) application with modular architecture built with TypeScript.
 
