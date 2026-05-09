@@ -24,7 +24,7 @@ A complete full-stack PERN (PostgreSQL, Express.js, React, Node.js) application 
 - ✅ **Vite** for fast development and building
 - ✅ **Redux Toolkit** for state management
 - ✅ **React Query** for server state management
-- ✅ **React Router v6** for routing
+- ✅ **React Router** for routing
 - ✅ **Tailwind CSS** for styling
 - ✅ **React Hook Form** with Zod validation
 - ✅ **Headless UI** for accessible components
